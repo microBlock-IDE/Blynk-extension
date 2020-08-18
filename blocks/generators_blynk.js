@@ -1,7 +1,7 @@
 Blockly.Python['blynk_setup'] = function(block) {
-  var value_ssid = Blockly.JavaScript.valueToCode(block, 'ssid', Blockly.JavaScript.ORDER_ATOMIC) || '""';
-  var value_pass = Blockly.JavaScript.valueToCode(block, 'pass', Blockly.JavaScript.ORDER_ATOMIC) || 'None';
-  var value_auth = Blockly.JavaScript.valueToCode(block, 'auth', Blockly.JavaScript.ORDER_ATOMIC) || '""';
+  var value_ssid = Blockly.Python.valueToCode(block, 'ssid', Blockly.JavaScript.ORDER_ATOMIC) || '""';
+  var value_pass = Blockly.Python.valueToCode(block, 'pass', Blockly.JavaScript.ORDER_ATOMIC) || 'None';
+  var value_auth = Blockly.Python.valueToCode(block, 'auth', Blockly.JavaScript.ORDER_ATOMIC) || '""';
   var dropdown_debug = block.getFieldValue('debug');
 
   Blockly.Python.addUploadModule("BlynkLib.py");
