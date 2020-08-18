@@ -48,7 +48,7 @@ Blockly.Python['blynk_on_vr'] = function(block) {
     ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(value):',
     statements_callback]);
 
-  var code = `blynk.callbacks["read${dropdown_pin}"] = ${functionName}\n`;\
+  var code = `blynk.callbacks["read${dropdown_pin}"] = ${functionName}\n`;
   return code;
 };
 
