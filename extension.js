@@ -5,7 +5,7 @@
     blocks: [ // Blocks in Category
         {
             xml: `
-                <block type="blynkSetup">
+                <block type="blynk_setup">
                     <value name="ssid">
                         <shadow type="text">
                             <field name="TEXT">--wifi-name--</field>
