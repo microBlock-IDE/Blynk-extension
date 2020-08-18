@@ -59,8 +59,13 @@ Blockly.Python['blynk_write'] = function(block) {
   return code;
 };
 
-Blockly.Python['blynk_get_value'] = function(block) {
-  var code = 'value';
+Blockly.Python['blynk_get_value_number'] = function(block) {
+  var code = 'int(value[0])';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['blynk_get_value_string'] = function(block) {
+  var code = 'value[0]';
   return [code, Blockly.Python.ORDER_NONE];
 };
 

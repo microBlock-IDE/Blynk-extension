@@ -269,8 +269,17 @@ Blockly.defineBlocksWithJsonArray(
   "helpUrl": ""
 },
 {
-  "type": "blynk_get_value",
-  "message0": "Blynk get value",
+  "type": "blynk_get_value_number",
+  "message0": "Blynk get value as number",
+  "inputsInline": true,
+  "output": null,
+  "colour": "#1ABC9C",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "blynk_get_value_string",
+  "message0": "Blynk get value as text",
   "inputsInline": true,
   "output": null,
   "colour": "#1ABC9C",

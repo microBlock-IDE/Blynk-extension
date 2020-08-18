@@ -20,7 +20,8 @@
             `
         },
         "blynk_on_vw",
-        "blynk_get_value",
+        "blynk_get_value_number",
+        "blynk_get_value_string",
         "blynk_on_vr",
         {
             xml: `
