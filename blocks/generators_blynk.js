@@ -29,10 +29,32 @@ Blockly.Python['blynk_setup'] = function(block) {
 Blockly.Python['blynk_on_vw'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+
+  var globals = [];
+  var varName;
+  var workspace = block.workspace;
+  var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
+  for (var i = 0, variable; variable = variables[i]; i++) {
+    varName = variable.name;
+    if (block.getVars().indexOf(varName) == -1) {
+      globals.push(Blockly.Python.variableDB_.getName(varName,
+          Blockly.VARIABLE_CATEGORY_NAME));
+    }
+  }
+  // Add developer variables.
+  var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
+  for (var i = 0; i < devVarList.length; i++) {
+    globals.push(Blockly.Python.variableDB_.getName(devVarList[i],
+        Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+  }
+
+  globals = globals.length ?
+      Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
   
   var functionName = Blockly.Python.provideFunction_(
     dropdown_pin + '_write_handler',
     ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(value):',
+    globals,
     statements_callback]);
 
   var code = `blynk.callbacks["${dropdown_pin}"] = ${functionName}\n`;
@@ -42,10 +64,29 @@ Blockly.Python['blynk_on_vw'] = function(block) {
 Blockly.Python['blynk_on_vr'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+
+  var globals = [];
+  var varName;
+  var workspace = block.workspace;
+  var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
+  for (var i = 0, variable; variable = variables[i]; i++) {
+    varName = variable.name;
+    if (block.getVars().indexOf(varName) == -1) {
+      globals.push(Blockly.Python.variableDB_.getName(varName,
+          Blockly.VARIABLE_CATEGORY_NAME));
+    }
+  }
+  // Add developer variables.
+  var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
+  for (var i = 0; i < devVarList.length; i++) {
+    globals.push(Blockly.Python.variableDB_.getName(devVarList[i],
+        Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+  }
   
   var functionName = Blockly.Python.provideFunction_(
     dropdown_pin + '_read_handler',
     ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(value):',
+    globals,
     statements_callback]);
 
   var code = `blynk.callbacks["read${dropdown_pin}"] = ${functionName}\n`;
