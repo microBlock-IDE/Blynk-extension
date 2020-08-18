@@ -1,8 +1,11 @@
 Blockly.defineBlocksWithJsonArray(
 [{
   "type": "blynk_setup",
-  "message0": "Blynk setup with WiFi SSID: %1 WiFi Password: %2 Auth Token: %3 debug: %4",
+  "message0": "Blynk setup %1 WiFi SSID: %2 WiFi Password: %3 Auth Token: %4 debug: %5",
   "args0": [
+    {
+      "type": "input_dummy"
+    },
     {
       "type": "input_value",
       "name": "ssid",
@@ -33,7 +36,7 @@ Blockly.defineBlocksWithJsonArray(
       ]
     }
   ],
-  "inputsInline": true,
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#1ABC9C",
