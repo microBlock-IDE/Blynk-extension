@@ -215,7 +215,7 @@ class BlynkProtocol:
                     print("Unexpected command: ", cmd)
                     return self.disconnect()
 
-import socket
+import usocket as socket
 
 class Blynk(BlynkProtocol):
     def __init__(self, auth, **kwargs):
