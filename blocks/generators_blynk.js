@@ -85,7 +85,7 @@ Blockly.Python['blynk_on_vr'] = function(block) {
   
   var functionName = Blockly.Python.provideFunction_(
     dropdown_pin + '_read_handler',
-    ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(value):',
+    ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
     globals,
     statements_callback]);
 
