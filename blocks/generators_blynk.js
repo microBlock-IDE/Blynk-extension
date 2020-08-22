@@ -4,7 +4,6 @@ Blockly.Python['blynk_setup'] = function(block) {
   var value_auth = Blockly.Python.valueToCode(block, 'auth', Blockly.Python.ORDER_ATOMIC) || '""';
   var dropdown_debug = block.getFieldValue('debug');
 
-  Blockly.Python.addUploadModule("BlynkLib.py");
   Blockly.Python.definitions_['import_machine'] = 'import machine';
   Blockly.Python.definitions_['import_blynklib'] = 'import BlynkLib';
   Blockly.Python.definitions_['import_network'] = 'import network';
