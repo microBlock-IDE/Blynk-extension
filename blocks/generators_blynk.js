@@ -82,6 +82,9 @@ Blockly.Python['blynk_on_vr'] = function(block) {
     globals.push(Blockly.Python.variableDB_.getName(devVarList[i],
         Blockly.Names.DEVELOPER_VARIABLE_TYPE));
   }
+
+  globals = globals.length ?
+        Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
   
   var functionName = Blockly.Python.provideFunction_(
     dropdown_pin + '_read_handler',
