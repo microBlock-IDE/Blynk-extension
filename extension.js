@@ -46,5 +46,8 @@
                 </block>
             `
         }
+    ],
+    chip: [
+        "ESP32" // Chip support
     ]
 });
