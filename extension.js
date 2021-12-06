@@ -1,7 +1,7 @@
 ({
-    name: "Blynk IoT", // Name
+    name: "Blynk-IoT", // Name
     description: "Blynk IoT platform: for businesses and developers",
-    author: "microBlock & iPAS",
+    author: "microBlock",
     category: "Communication",
     version: "1.0.2",
     icon: "/static/icon.png", // Category icon
