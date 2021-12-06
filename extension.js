@@ -1,5 +1,5 @@
 ({
-    name: "Blynk", // Category Name
+    name: "Blynk IoT", // Name
     description: "Blynk IoT platform: for businesses and developers",
     author: "microBlock",
     category: "Communication",
