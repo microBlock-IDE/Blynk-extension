@@ -20,7 +20,7 @@ Blockly.Python['blynk_setup'] = function(block) {
     '    pass',
     '  print("IP:", wifi.ifconfig()[0])',
     '  print("Connecting to Blynk...")',
-    '  blynk = BlynkLib.Blynk(auth, log=debug)']);
+    '  blynk = BlynkLib.Blynk(auth, server="blynk.cloud", log=debug)']);
 
   var code = `${functionName}(${value_ssid}, ${value_pass}, ${value_auth}, ${dropdown_debug})\n`;
   return code;
@@ -120,6 +120,17 @@ Blockly.Python['blynk_loop'] = function(block) {
     '  while True:',
     '    blynk.run()',
     '    machine.idle()']);
+
+  var code = `${functionName}()\n`;
+  return code;
+};
+
+Blockly.Python['blynk_run'] = function(block) {
+  var functionName = Blockly.Python.provideFunction_(
+    'blynkRun',
+    ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+    '  blynk.run()',
+    '  machine.idle()']);
 
   var code = `${functionName}()\n`;
   return code;
