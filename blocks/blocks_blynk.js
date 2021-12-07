@@ -295,5 +295,15 @@ Blockly.defineBlocksWithJsonArray(
   "colour": "#1ABC9C",
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "blynk_run",
+  "message0": "Blynk run",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#1ABC9C",
+  "tooltip": "",
+  "helpUrl": ""
 }]
 );

@@ -1,9 +1,9 @@
 ({
-    name: "Blynk", // Category Name
+    name: "Blynk-IoT", // Name
     description: "Blynk IoT platform: for businesses and developers",
     author: "microBlock",
     category: "Communication",
-    version: "1.0.1",
+    version: "1.0.3",
     icon: "/static/icon.png", // Category icon
     color: "#1ABC9C", // Category color (recommend some blocks color)
     blocks: [ // Blocks in Category
@@ -39,6 +39,7 @@
             `
         },
         "blynk_loop",
+        "blynk_run",
         {
             xml: `
                 <block type="text">

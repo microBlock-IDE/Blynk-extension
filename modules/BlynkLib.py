@@ -1,10 +1,9 @@
 # Copyright (c) 2015-2019 Volodymyr Shymanskyy. See the file LICENSE for copying permission.
 
-_VERSION = "0.2.1"
+_VERSION = "0.2.0"
 
 import struct
 import time
-import sys
 import os
 
 try:
@@ -14,8 +13,6 @@ except ImportError:
     const = lambda x: x
     gettime = lambda: int(time.time() * 1000)
 
-from machine import Pin
- 
 def dummy(*args):
     pass 
 
@@ -24,6 +21,7 @@ MSG_LOGIN = const(2)
 MSG_PING  = const(6)
 
 MSG_TWEET = const(12)
+MSG_EMAIL = const(13)
 MSG_NOTIFY = const(14)
 MSG_BRIDGE = const(15)
 MSG_HW_SYNC = const(16)
@@ -48,7 +46,7 @@ print("""
    / _ )/ /_ _____  / /__
   / _  / / // / _ \\/  '_/
  /____/_/\\_, /_//_/_/\\_\\
-        /___/ for Python v""" + _VERSION + " (" + sys.platform + ")\n")
+        /___/ for Python v""" + _VERSION + " (" + os.uname()[0] + ")\n")
 
 class BlynkProtocol:
     def __init__(self, auth, heartbeat=10, buffin=1024, log=None):
@@ -60,19 +58,7 @@ class BlynkProtocol:
         self.state = DISCONNECTED
         self.connect()
 
-    # These are mainly for backward-compatibility you can use "blynk.on()" instead
     def ON(blynk, evt):
-        return blynk.on(evt)
-    def VIRTUAL_READ(blynk, pin):
-        return blynk.on("readV"+str(pin))
-    def VIRTUAL_WRITE(blynk, pin):
-        return blynk.on("V"+str(pin))
-
-    def on(blynk, evt, func=None):
-        if func:
-            blynk.callbacks[evt] = func
-            return
-
         class Decorator:
             def __init__(self, func):
                 self.func = func
@@ -80,6 +66,28 @@ class BlynkProtocol:
             def __call__(self):
                 return self.func()
         return Decorator
+
+    # These are mainly for backward-compatibility you can use "blynk.ON()" instead
+    def VIRTUAL_READ(blynk, pin):
+        class Decorator():
+            def __init__(self, func):
+                self.func = func
+                blynk.callbacks["readV"+str(pin)] = func
+            def __call__(self):
+                return self.func()
+        return Decorator
+
+    def VIRTUAL_WRITE(blynk, pin):
+        class Decorator():
+            def __init__(self, func):
+                self.func = func
+                blynk.callbacks["V"+str(pin)] = func
+            def __call__(self):
+                return self.func()
+        return Decorator
+
+    def on(self, evt, func):
+        self.callbacks[evt] = func
 
     def emit(self, evt, *a, **kv):
         self.log("Event:", evt, "->", *a)
@@ -108,8 +116,8 @@ class BlynkProtocol:
             self._send(MSG_EVENT_LOG, event, descr)
 
     def _send(self, cmd, *args, **kwargs):
-        if 'id' in kwargs:
-            id = kwargs.get('id')
+        if "id" in kwargs:
+            id = kwargs.id
         else:
             id = self.msg_id
             self.msg_id += 1
@@ -138,11 +146,10 @@ class BlynkProtocol:
 
     def disconnect(self):
         if self.state == DISCONNECTED: return
-        self.bin = b""
         self.state = DISCONNECTED
         self.emit('disconnected')
 
-    def process(self, data=None):
+    def process(self, data=b''):
         if not (self.state == CONNECTING or self.state == CONNECTED): return
         now = gettime()
         if now - self.lastRecv > self.heartbeat+(self.heartbeat//2):
@@ -157,9 +164,8 @@ class BlynkProtocol:
             self.bin += data
 
         while True:
-            if len(self.bin) < 5:
-                break
-
+            if len(self.bin) < 5: return
+            
             cmd, i, dlen = struct.unpack("!BHH", self.bin[:5])
             if i == 0: return self.disconnect()
                       
@@ -185,10 +191,9 @@ class BlynkProtocol:
                 if dlen >= self.buffin:
                     print("Cmd too big: ", dlen)
                     return self.disconnect()
-
-                if len(self.bin) < 5+dlen:
-                    break
-
+            
+                if len(self.bin) < 5+dlen: return
+                
                 data = self.bin[5:5+dlen]
                 self.bin = self.bin[5+dlen:]
 
@@ -204,18 +209,13 @@ class BlynkProtocol:
                     elif args[0] == 'vr':
                         self.emit("readV"+args[1])
                         self.emit("readV*", args[1])
-                    elif args[0] == 'dw':
-                        Pin(int(args[1]), Pin.OUT).value(int(args[2]))
-                    elif args[0] == 'dr':
-                        pinValue = Pin(int(args[1]), Pin.IN).value()
-                        self._send(MSG_HW, 'dw', args[1], pinValue)
                 elif cmd == MSG_INTERNAL:
                     self.emit("int_"+args[1], args[2:])
                 else:
                     print("Unexpected command: ", cmd)
                     return self.disconnect()
 
-import usocket as socket
+import socket
 
 class Blynk(BlynkProtocol):
     def __init__(self, auth, **kwargs):
@@ -250,5 +250,4 @@ class Blynk(BlynkProtocol):
         except: # TODO: handle disconnect
             pass
         self.process(data)
-
 
