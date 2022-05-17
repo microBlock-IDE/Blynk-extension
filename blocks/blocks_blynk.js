@@ -8,17 +8,17 @@ Blockly.defineBlocksWithJsonArray(
     },
     {
       "type": "input_value",
-      "name": "server",
-      "check": "String"
-    },
-    {
-      "type": "input_value",
       "name": "ssid",
       "check": "String"
     },
     {
       "type": "input_value",
       "name": "pass",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "server",
       "check": "String"
     },
     {
