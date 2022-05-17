@@ -1,6 +1,7 @@
 Blockly.Python['blynk_setup'] = function(block) {
   var value_ssid = Blockly.Python.valueToCode(block, 'ssid', Blockly.Python.ORDER_ATOMIC) || '""';
   var value_pass = Blockly.Python.valueToCode(block, 'pass', Blockly.Python.ORDER_ATOMIC) || 'None';
+  var value_server = Blockly.Python.valueToCode(block, 'server', Blockly.Python.ORDER_ATOMIC) || '""';
   var value_auth = Blockly.Python.valueToCode(block, 'auth', Blockly.Python.ORDER_ATOMIC) || '""';
   var dropdown_debug = block.getFieldValue('debug');
 
@@ -10,7 +11,7 @@ Blockly.Python['blynk_setup'] = function(block) {
 
   var functionName = Blockly.Python.provideFunction_(
     'blynkSetup',
-    ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(wifi_ssid, wifi_pass, auth, debug):',
+    ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(wifi_ssid, wifi_pass, server, auth, debug):',
     '  global blynk',
     '  print("Connecting to WiFi...")',
     '  wifi = network.WLAN(network.STA_IF)',
@@ -20,9 +21,9 @@ Blockly.Python['blynk_setup'] = function(block) {
     '    pass',
     '  print("IP:", wifi.ifconfig()[0])',
     '  print("Connecting to Blynk...")',
-    '  blynk = BlynkLib.Blynk(auth, server="blynk.cloud", log=debug)']);
+    '  blynk = BlynkLib.Blynk(auth, server=server, log=debug)']);
 
-  var code = `${functionName}(${value_ssid}, ${value_pass}, ${value_auth}, ${dropdown_debug})\n`;
+  var code = `${functionName}(${value_ssid}, ${value_pass}, ${value_server}, ${value_auth}, ${dropdown_debug})\n`;
   return code;
 };
 

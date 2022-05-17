@@ -1,10 +1,15 @@
 Blockly.defineBlocksWithJsonArray(
 [{
   "type": "blynk_setup",
-  "message0": "Blynk setup %1 WiFi SSID: %2 WiFi Password: %3 Auth Token: %4 debug: %5",
+  "message0": "Blynk setup %1 WiFi SSID: %2 WiFi Password: %3 Server: %4 Auth Token: %5 debug: %6",
   "args0": [
     {
       "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "server",
+      "check": "String"
     },
     {
       "type": "input_value",

@@ -3,7 +3,7 @@
     description: "Blynk IoT platform: for businesses and developers",
     author: "microBlock",
     category: "Communication",
-    version: "1.0.3",
+    version: "1.1.0",
     icon: "/static/icon.png", // Category icon
     color: "#1ABC9C", // Category color (recommend some blocks color)
     blocks: [ // Blocks in Category
@@ -13,6 +13,11 @@
                     <value name="ssid">
                         <shadow type="text">
                             <field name="TEXT">--wifi-name--</field>
+                        </shadow>
+                    </value>
+                    <value name="server">
+                        <shadow type="text">
+                            <field name="TEXT">blynk.cloud</field>
                         </shadow>
                     </value>
                     <value name="auth">
