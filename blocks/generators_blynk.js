@@ -148,7 +148,7 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
   var dropdown_debug = block.getFieldValue('debug');
   
   const unplugString = str => /String\(([^\)]*)/gm.exec(str)[1];
-  
+
   if (dropdown_debug === "print") {
     Blockly.JavaScript.definitions_['include']['_BLYNK_PRINT'] = '#define BLYNK_PRINT Serial';
   }
@@ -227,7 +227,7 @@ Blockly.JavaScript['blynk_write'] = function(block) {
   var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC) || "";
   var dropdown_pin = block.getFieldValue('pin');
 
-  var code = `Blynk.virtualWrite(${dropdown_pin}, ${value_value})\n`;
+  var code = `Blynk.virtualWrite(${dropdown_pin}, ${value_value});\n`;
   return code;
 };
 
