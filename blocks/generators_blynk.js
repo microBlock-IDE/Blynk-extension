@@ -142,12 +142,20 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
   var value_ssid = Blockly.JavaScript.valueToCode(block, 'ssid', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
   var value_pass = Blockly.JavaScript.valueToCode(block, 'pass', Blockly.JavaScript.ORDER_ATOMIC) || '';
   var value_server = Blockly.JavaScript.valueToCode(block, 'server', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
+  var value_template_id = Blockly.JavaScript.valueToCode(block, 'template_id', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
+  var value_template_name = Blockly.JavaScript.valueToCode(block, 'template_name', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
   var value_auth = Blockly.JavaScript.valueToCode(block, 'auth', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
   var dropdown_debug = block.getFieldValue('debug');
   
   if (dropdown_debug === "print") {
     Blockly.JavaScript.definitions_['include']['_BLYNK_PRINT'] = '#define BLYNK_PRINT Serial';
   }
+  Blockly.JavaScript.definitions_['include']['_BLYNK_DEFINE'] = 
+`#define BLYNK_TEMPLATE_ID ${unplugString(value_template_id)}
+#define BLYNK_TEMPLATE_NAME ${unplugString(value_template_name)}
+#define BLYNK_AUTH_TOKEN ${unplugString(value_auth)}
+#define BLYNK_SERVER ${unplugString(value_server)}
+`;
   Blockly.JavaScript.definitions_['include']['BlynkMultiClient.h'] = '#include <BlynkMultiClient.h>';
   Blockly.JavaScript.definitions_['include']['WiFiS3.h'] = '#include <WiFiS3.h>';
 
@@ -159,7 +167,7 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
     'connectWiFi',
     [
       'void ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '() {',
-      `  Serial.print("Connecting to " + ${value_ssid});`,
+      `  Serial.println("Connecting to " + ${value_ssid});`,
       '  ',
       `  WiFi.begin(${unplugString(value_ssid)}${value_pass !== '' ? `, ${unplugString(value_pass)}` : ""});`,
       '  ',
@@ -176,7 +184,7 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
 ${functionName}();
 
 Blynk.addClient("WiFi", blynkWiFiClient, 80);
-Blynk.config(${unplugString(value_auth)}, ${unplugString(value_server)});
+Blynk.config(BLYNK_AUTH_TOKEN, BLYNK_SERVER);
 `;
   return code;
 };
