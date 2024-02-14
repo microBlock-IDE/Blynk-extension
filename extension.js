@@ -3,7 +3,7 @@
     description: "Blynk IoT platform: for businesses and developers",
     author: "microBlock",
     category: "Communication",
-    version: "1.2.0",
+    version: "1.3.0",
     icon: "/static/icon.png", // Category icon
     color: "#1ABC9C", // Category color (recommend some blocks color)
     blocks: [ // Blocks in Category
@@ -55,6 +55,12 @@
     ],
     chip: [
         "ESP32", // Chip support
-        "RP2-WiFi"
+        "RP2-WiFi",
+        "Uno-R4-WiFi"
+    ], 
+    supportArduinoPlatform: true,
+    depends: [ // Arduino library
+        "Blynk@1.3.2",
+        "BlynkNcpDriver@0.6.3"
     ]
 });

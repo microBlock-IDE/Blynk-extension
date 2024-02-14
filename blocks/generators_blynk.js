@@ -136,3 +136,147 @@ Blockly.Python['blynk_run'] = function(block) {
   var code = `${functionName}()\n`;
   return code;
 };
+
+
+Blockly.JavaScript['blynk_setup'] = function(block) {
+  var value_ssid = Blockly.JavaScript.valueToCode(block, 'ssid', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
+  var value_pass = Blockly.JavaScript.valueToCode(block, 'pass', Blockly.JavaScript.ORDER_ATOMIC) || '';
+  var value_server = Blockly.JavaScript.valueToCode(block, 'server', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
+  var value_auth = Blockly.JavaScript.valueToCode(block, 'auth', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
+  var dropdown_debug = block.getFieldValue('debug');
+  
+  if (dropdown_debug === "print") {
+    Blockly.JavaScript.definitions_['include']['_BLYNK_PRINT'] = '#define BLYNK_PRINT Serial';
+  }
+  Blockly.JavaScript.definitions_['include']['BlynkMultiClient.h'] = '#include <BlynkMultiClient.h>';
+  Blockly.JavaScript.definitions_['include']['WiFiS3.h'] = '#include <WiFiS3.h>';
+
+  Blockly.JavaScript.definitions_['define']['blynkWiFiClient'] = 'static WiFiClient blynkWiFiClient;';
+
+  const unplugString = str => /String\(([^\)]*)/gm.exec(str)[1];
+
+  var functionName = Blockly.Python.provideFunction_(
+    'connectWiFi',
+    [
+      'void ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '() {',
+      `  Serial.print("Connecting to " + ${value_ssid});`,
+      '  ',
+      `  WiFi.begin(${unplugString(value_ssid)}${value_pass !== '' ? `, ${unplugString(value_pass)}` : ""});`,
+      '  ',
+      '  while (WiFi.status() != WL_CONNECTED) {',
+      '    delay(100);',
+      '    Serial.print(".");',
+      '  }',
+      '}',
+    ]
+  );
+
+  var code = `Serial.begin(115200);
+
+${functionName}();
+
+Blynk.addClient("WiFi", blynkWiFiClient, 80);
+Blynk.config(${unplugString(value_auth)}, ${unplugString(value_server)});
+`;
+  return code;
+};
+
+Blockly.JavaScript['blynk_on_vw'] = function(block) {
+  var dropdown_pin = block.getFieldValue('pin');
+  var statements_callback = Blockly.JavaScript.statementToCode(block, 'callback');
+
+  Blockly.Python.provideFunction_(
+    'BLYNK_WRITE_' + dropdown_pin,
+    [
+      `BLYNK_WRITE(${dropdown_pin}) {`,
+      `  ${statements_callback}`,
+      '}',
+    ]
+  );
+
+  var code = "";
+  return code;
+};
+
+Blockly.JavaScript['blynk_on_vr'] = function(block) {
+  var dropdown_pin = block.getFieldValue('pin');
+  var statements_callback = Blockly.JavaScript.statementToCode(block, 'callback');
+
+  Blockly.Python.provideFunction_(
+    'BLYNK_READ_' + dropdown_pin,
+    [
+      `BLYNK_READ(${dropdown_pin}) {`,
+      `  ${statements_callback}`,
+      '}',
+    ]
+  );
+
+  var code = "";
+  return code;
+};
+
+Blockly.JavaScript['blynk_write'] = function(block) {
+  var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC) || "";
+  var dropdown_pin = block.getFieldValue('pin');
+
+  var code = `Blynk.virtualWrite(${dropdown_pin}, ${value_value})\n`;
+  return code;
+};
+
+Blockly.JavaScript['blynk_get_value_number'] = function(block) {
+  var code = 'param.asInt()';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['blynk_get_value_string'] = function(block) {
+  var code = 'String(param.asString())';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['blynk_loop'] = function(block) {
+  var functionName = Blockly.JavaScript.provideFunction_(
+    'blynkRun',
+    [
+      'void ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '() {',
+      '  if (WiFi.status() != WL_CONNECTED) {',
+      '    connectWiFi();',
+      '    return;',
+      '  }',
+      '  Blynk.run();',
+      '}'
+    ]
+  );
+
+  var code = `while(1) {
+  ${functionName}();
+}
+`;
+  return code;
+};
+
+Blockly.JavaScript['blynk_run'] = function(block) {
+  var functionName = Blockly.JavaScript.provideFunction_(
+    'blynkRun',
+    [
+      'void ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '() {',
+      '  if (WiFi.status() != WL_CONNECTED) {',
+      '    connectWiFi();',
+      '    return;',
+      '  }',
+      '  Blynk.run();',
+      '}'
+    ]
+  );
+
+  var code = `${functionName}();\n`;
+  return code;
+};
+
+
+
+
+
+
+
+
+
