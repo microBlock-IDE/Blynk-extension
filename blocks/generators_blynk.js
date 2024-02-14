@@ -147,6 +147,8 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
   var value_auth = Blockly.JavaScript.valueToCode(block, 'auth', Blockly.JavaScript.ORDER_ATOMIC) || 'String("")';
   var dropdown_debug = block.getFieldValue('debug');
   
+  const unplugString = str => /String\(([^\)]*)/gm.exec(str)[1];
+  
   if (dropdown_debug === "print") {
     Blockly.JavaScript.definitions_['include']['_BLYNK_PRINT'] = '#define BLYNK_PRINT Serial';
   }
@@ -160,8 +162,6 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
   Blockly.JavaScript.definitions_['include']['WiFiS3.h'] = '#include <WiFiS3.h>';
 
   Blockly.JavaScript.definitions_['define']['blynkWiFiClient'] = 'static WiFiClient blynkWiFiClient;';
-
-  const unplugString = str => /String\(([^\)]*)/gm.exec(str)[1];
 
   var functionName = Blockly.JavaScript.provideFunction_(
     'connectWiFi',
