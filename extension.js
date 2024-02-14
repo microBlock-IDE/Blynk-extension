@@ -20,6 +20,16 @@
                             <field name="TEXT">blynk.cloud</field>
                         </shadow>
                     </value>
+                    <value name="template_id">
+                        <shadow type="text">
+                            <field name="TEXT">--template-id--</field>
+                        </shadow>
+                    </value>
+                    <value name="template_name">
+                        <shadow type="text">
+                            <field name="TEXT">--template-name--</field>
+                        </shadow>
+                    </value>
                     <value name="auth">
                         <shadow type="text">
                             <field name="TEXT">--auth--</field>
