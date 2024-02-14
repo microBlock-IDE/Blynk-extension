@@ -155,10 +155,10 @@ Blockly.JavaScript['blynk_setup'] = function(block) {
 
   const unplugString = str => /String\(([^\)]*)/gm.exec(str)[1];
 
-  var functionName = Blockly.Python.provideFunction_(
+  var functionName = Blockly.JavaScript.provideFunction_(
     'connectWiFi',
     [
-      'void ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '() {',
+      'void ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '() {',
       `  Serial.print("Connecting to " + ${value_ssid});`,
       '  ',
       `  WiFi.begin(${unplugString(value_ssid)}${value_pass !== '' ? `, ${unplugString(value_pass)}` : ""});`,
@@ -185,7 +185,7 @@ Blockly.JavaScript['blynk_on_vw'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.JavaScript.statementToCode(block, 'callback');
 
-  Blockly.Python.provideFunction_(
+  Blockly.JavaScript.provideFunction_(
     'BLYNK_WRITE_' + dropdown_pin,
     [
       `BLYNK_WRITE(${dropdown_pin}) {`,
@@ -202,7 +202,7 @@ Blockly.JavaScript['blynk_on_vr'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.JavaScript.statementToCode(block, 'callback');
 
-  Blockly.Python.provideFunction_(
+  Blockly.JavaScript.provideFunction_(
     'BLYNK_READ_' + dropdown_pin,
     [
       `BLYNK_READ(${dropdown_pin}) {`,
