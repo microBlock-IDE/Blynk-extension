@@ -48,7 +48,7 @@ Blockly.defineBlocksWithJsonArray(
           ["off", "None"]
         ]
       }
-    ]),
+    ]).filter(a => Boolean(a)),
     "inputsInline": false,
     "previousStatement": null,
     "nextStatement": null,
