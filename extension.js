@@ -3,7 +3,7 @@
     description: "Blynk IoT platform: for businesses and developers",
     author: "microBlock",
     category: "Communication",
-    version: "1.3.0",
+    version: "1.4.0",
     icon: "/static/icon.png", // Category icon
     color: "#1ABC9C", // Category color (recommend some blocks color)
     blocks: [ // Blocks in Category

@@ -30,6 +30,9 @@ Blockly.Python['blynk_setup'] = function(block) {
 Blockly.Python['blynk_on_vw'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+  if (typeof Blockly.Python.variableDB_ === "undefined") {
+    Blockly.Python.variableDB_ = Blockly.Python.nameDB_;
+  }
 
   var globals = [];
   var varName;
@@ -65,6 +68,9 @@ Blockly.Python['blynk_on_vw'] = function(block) {
 Blockly.Python['blynk_on_vr'] = function(block) {
   var dropdown_pin = block.getFieldValue('pin');
   var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+  if (typeof Blockly.Python.variableDB_ === "undefined") {
+    Blockly.Python.variableDB_ = Blockly.Python.nameDB_;
+  }
 
   var globals = [];
   var varName;
